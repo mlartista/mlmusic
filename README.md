@@ -60,3 +60,4 @@ Para que o site funcione online, você precisa de um banco de dados que não est
 - [Neon.tech](https://neon.tech) (PostgreSQL gratuito e excelente para Next.js).
 - [Supabase](https://supabase.com) (Outra alternativa poderosa).
 - Após criar a conta, copie a "Connection String" e cole no campo `DATABASE_URL` da Vercel.
+Atualização de build
