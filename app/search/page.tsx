@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Search as SearchIcon, Music, User, Disc } from 'lucide-react';
 
