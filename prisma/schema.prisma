@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  password      String?
+  image         String?
+  role          Role      @default(USER)
+  playlists     Playlist[]
+  likedSongs    LikeSong[]
+  likedArtists  LikeArtist[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Artist {
+  id        String   @id @default(cuid())
+  name      String
+  bio       String?
+  imageUrl  String?
+  verified  Boolean   @default(false)
+  albums    Album[]
+  likedBy   LikeArtist[]
+  createdAt DateTime @default(now())
+}
+
+model Album {
+  id          String   @id @default(cuid())
+  title       String
+  coverUrl    String?
+  releaseDate DateTime?
+  artistId    String
+  artist      Artist   @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  songs       Song[]
+  createdAt   DateTime @default(now())
+}
+
+model Song {
+  id          String   @id @default(cuid())
+  title       String
+  duration    Int      // Duration in seconds
+  audioUrl    String
+  lyricUrl    String?
+  playsCount  Int      @default(0)
+  albumId     String
+  album       Album    @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  playlists   PlaylistSong[]
+  likedBy     LikeSong[]
+  createdAt   DateTime @default(now())
+}
+
+model Playlist {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  isPublic    Boolean  @default(false)
+  coverUrl    String?
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  songs       PlaylistSong[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model PlaylistSong {
+  playlistId String
+  songId     String
+  addedAt    DateTime @default(now())
+
+  playlist Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  song     Song     @relation(fields: [songId], references: [id], onDelete: Cascade)
+
+  @@id([playlistId, songId])
+}
+
+model LikeSong {
+  userId String
+  songId String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  song Song @relation(fields: [songId], references: [id], onDelete: Cascade)
+
+  @@id([userId, songId])
+}
+
+model LikeArtist {
+  userId String
+  artistId String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  artist Artist @relation(fields: [artistId], references: [id], onDelete: Cascade)
+
+  @@id([userId, artistId])
+}
