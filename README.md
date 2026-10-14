@@ -61,3 +61,4 @@ Para que o site funcione online, você precisa de um banco de dados que não est
 - [Supabase](https://supabase.com) (Outra alternativa poderosa).
 - Após criar a conta, copie a "Connection String" e cole no campo `DATABASE_URL` da Vercel.
 Atualização de build
+Update Final
