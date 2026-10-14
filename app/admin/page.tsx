@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { LayoutDashboard, UserPlus, Disc, Music, Upload, Plus, Trash2, Edit3 } from 'lucide-react';
 import { createArtist, createAlbum, uploadSong } from './actions';
