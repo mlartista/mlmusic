@@ -15,7 +15,6 @@ export async function createArtist(formData: FormData) {
   })
 
   revalidatePath('/admin')
-  return { success: true }
 }
 
 export async function createAlbum(formData: FormData) {
@@ -28,7 +27,6 @@ export async function createAlbum(formData: FormData) {
   })
 
   revalidatePath('/admin')
-  return { success: true }
 }
 
 export async function uploadSong(formData: FormData) {
@@ -39,7 +37,6 @@ export async function uploadSong(formData: FormData) {
   if (!file) throw new Error('Arquivo de áudio é obrigatório')
 
   // Simulation of upload to Cloudinary/S3
-  // In a real app, you'd use: const uploadResponse = await cloudinary.uploader.upload(file, { resource_type: 'video' })
   const simulatedUrl = `https://storage.mlmusic.com/songs/${Date.now()}-${file.name}`
 
   await prisma.song.create({
@@ -52,5 +49,4 @@ export async function uploadSong(formData: FormData) {
   })
 
   revalidatePath('/admin')
-  return { success: true, url: simulatedUrl }
 }
